@@ -8,7 +8,7 @@ st.set_page_config(page_title="Gym progress visualizer", page_icon="🏋️")
 
 st.title("Gym progress visualizer ")
 st.write("##### (Based on export data from Alpha Progression)")
-st.write("If you encounter issues/errors with this script, you can open an issue on GitHub (or get in touch with me otherwise).")
+st.write("If you encounter issues/errors with this script, you can open an issue [on GitHub](https://github.com/gdewael/st-alpha-progression/issues) (or get in touch with me otherwise).")
 
 def RM1(reps, weight):
     return weight / (1.0278 - 0.0278*reps)
