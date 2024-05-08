@@ -19,6 +19,9 @@ def RM10(reps, weight):
 def RM10_to_RM1(RM10):
     return RM10/(1.0278 - 0.0278*10)
 
+def RM1_to_RMx(RM1, r):
+    return RM1 * (1.0278 - 0.0278 * r)
+
 uploaded_file = st.file_uploader("Input Alpha Progression workouts file")
 
 if uploaded_file is not None:
@@ -97,7 +100,10 @@ if uploaded_file is not None:
         hover_data=["Date", "Weight", "Reps", "Estimated 10RM"],
     )
     
-    title_ = "Est. 10RM: %.2f / Est. 1RM: %.2f" % (fig.data[1].y[-1], RM10_to_RM1(fig.data[1].y[-1]))
+    est_rm10 = fig.data[1].y[-1]
+    est_rm1 = RM10_to_RM1(est_rm10)
+
+    title_ = "Est. 10RM: %.2f / Est. 1RM: %.2f" % (est_rm10, est_rm1)
     fig.update_layout(
         title=dict(
             text=title_
@@ -105,3 +111,8 @@ if uploaded_file is not None:
         )
     st.plotly_chart(fig, use_container_width=False)
 
+    st.write("Rep to weight table:")
+    st.dataframe(
+        pd.DataFrame([[RM1_to_RMx(est_rm1, r) for r in range(1, 21)]], columns = np.arange(1, 21)),
+        hide_index = True
+    )
