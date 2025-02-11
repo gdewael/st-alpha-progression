@@ -10,11 +10,24 @@ st.title("Gym progress visualizer ")
 st.write("##### (Based on export data from Alpha Progression)")
 st.write("If you encounter issues/errors with this script, you can open an issue [on GitHub](https://github.com/gdewael/st-alpha-progression/issues) (or get in touch with me otherwise).")
 
-def RM1(reps, weight):
+def epley_RM1(reps, weight):
+    return weight * (1 + reps/30)
+
+def epley_RM10(reps, weight):
+    return epley_RM1(reps, weight)/(1 + 10/30)
+
+def brzycki_RM1(reps, weight):
     return weight / (1.0278 - 0.0278*reps)
 
+def brzycki_RM10(reps, weight):
+    return (1.0278 - 0.0278*10)*brzycki_RM1(reps, weight)
+
 def RM10(reps, weight):
-    return (1.0278 - 0.0278*10)*RM1(reps, weight)
+    w_on_epley = np.minimum(np.arange(0, 101)/5, 1)
+    return w_on_epley[reps-1]*epley_RM10(reps, weight) + (1-w_on_epley[reps-1])*brzycki_RM10(reps, weight)
+
+def RM1(reps, weight):
+    return RM10(reps, weight) / (1.0278 - 0.0278*10)
 
 def RM10_to_RM1(RM10):
     return RM10/(1.0278 - 0.0278*10)
