@@ -82,8 +82,9 @@ if uploaded_file is not None:
 
     exercise_to_plot = st.selectbox("Select exercise to plot", options = np.arange(len(exercise_freq)), format_func = format_func)
     
+    smoothing = st.slider("Trendline smoothing slider", 0.05, 1.0, 0.50, step=0.05)
     options = {
-        "Smoothed Average" : ("lowess", dict(frac=0.8)),
+        "Smoothed Average" : ("lowess", dict(frac=smoothing)),
         "Follow max" : ("expanding", dict(function="max")),
     }
 
